@@ -1,0 +1,28 @@
+name: Forge Modunu Oluştur
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Kodu klonla
+      uses: actions/checkout@v2
+
+    - name: Java 8'i kur
+      uses: actions/setup-java@v2
+      with:
+        java-version: 8
+        distribution: 'temurin'
+
+    - name: Gradle ile mod derle
+      run: ./gradlew build
+
+    - name: Jar dosyasını yükle
+      uses: actions/upload-artifact@v3
+      with:
+        name: AshModJar
+        path: build/libs/*.jar
