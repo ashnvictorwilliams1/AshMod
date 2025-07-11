@@ -1,38 +1,36 @@
-name: Build Forge 1.12.2 Mod
+name: Forge Mod Build
 
 on:
   push:
-    branches:
-      - '*'
-
-permissions:
-  contents: read
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+    - name: Checkout Repository
+      uses: actions/checkout@v4
 
-      - name: Set up Java 8
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '8'
+    - name: Unzip ash.zip
+      run: unzip ash.zip -d ash
 
-      - name: Make Gradle executable
-        run: chmod +x ./gradlew
+    - name: Make gradlew executable
+      run: chmod +x ./ash/gradlew
 
-      - name: Setup Forge workspace
-        run: ./gradlew setupDecompWorkspace --stacktrace
+    - name: Set up JDK 8
+      uses: actions/setup-java@v3
+      with:
+        distribution: temurin
+        java-version: 8
 
-      - name: Build mod
-        run: ./gradlew build --stacktrace
+    - name: Run Gradle Build
+      working-directory: ./ash
+      run: ./gradlew build
 
-      - name: Upload built jar
-        uses: actions/upload-artifact@v4   # <<< v3 değil v4!
-        with:
-          name: ashmod
-          path: build/libs/*.jar
+    - name: Upload JAR
+      uses: actions/upload-artifact@v4
+      with:
+        name: AshMod
+        path: ash/build/libs/*.jar
