@@ -13,8 +13,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: List files in root
+        run: ls -la
+
       - name: Unzip ash.zip
         run: unzip ash.zip -d ash
+
+      - name: List files after unzip
+        run: ls -la ./ash
 
       - name: Make gradlew executable
         run: chmod +x ./ash/ash/gradlew
@@ -22,16 +28,21 @@ jobs:
       - name: Set up JDK 8
         uses: actions/setup-java@v3
         with:
-          distribution: zulu
-          java-version: 8
+          distribution: temurin
+          java-version: '8'
 
-      - name: Clean build cache
-        run: ./gradlew clean
-        working-directory: ./ash/ash
+      - name: Check Java version
+        run: |
+          java -version
+          javac -version
 
-      - name: Run Gradle Build
-        run: ./gradlew build
+      - name: Check gradle version
         working-directory: ./ash/ash
+        run: ./gradlew --version
+
+      - name: Run Gradle Build (debug)
+        working-directory: ./ash/ash
+        run: ./gradlew build --stacktrace --info
 
       - name: Upload JAR
         uses: actions/upload-artifact@v4
