@@ -32,7 +32,7 @@ jobs:
         run: ./gradlew build --stacktrace
 
       - name: Upload built jar
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4   # <<< v3 değil v4!
         with:
           name: ashmod
           path: build/libs/*.jar
