@@ -17,7 +17,7 @@ jobs:
       run: unzip ash.zip -d ash
 
     - name: Make gradlew executable
-      run: chmod +x ./ash/gradlew
+      run: chmod +x ./ash/Ash/gradlew
 
     - name: Set up JDK 8
       uses: actions/setup-java@v3
@@ -26,11 +26,11 @@ jobs:
         java-version: 8
 
     - name: Run Gradle Build
-      working-directory: ./ash
+      working-directory: ./ash/Ash
       run: ./gradlew build
 
     - name: Upload JAR
       uses: actions/upload-artifact@v4
       with:
         name: AshMod
-        path: ash/build/libs/*.jar
+        path: ash/Ash/build/libs/*.jar
