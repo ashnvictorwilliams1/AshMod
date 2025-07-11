@@ -1,28 +1,28 @@
-name: Forge Modunu Oluştur
+name: Build Forge Mod
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Kodu klonla
-      uses: actions/checkout@v2
+      - name: Checkout repo
+        uses: actions/checkout@v2
 
-    - name: Java 8'i kur
-      uses: actions/setup-java@v2
-      with:
-        distribution: 'temurin'
-        java-version: 8
+      - name: Setup Java 8
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '8'
 
-    - name: Gradle ile mod derle
-      run: ./gradlew build
+      - name: Build mod with Gradle
+        run: ./gradlew build
 
-    - name: Jar dosyasını yükle
-      uses: actions/upload-artifact@v2
-      with:
-        name: AshModJar
-        path: build/libs/*.jar
+      - name: Upload Jar artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: AshModJar
+          path: build/libs/*.jar
